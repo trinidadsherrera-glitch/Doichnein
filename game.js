@@ -1,21 +1,7 @@
-/*
-  game.js is now a small entry module that bootstraps the refactored engine.
-  The original large file was split into:
-    - assets.js   (asset constants, loader, audio helper)
-    - engine.js   (game state, update/draw loop, controls)
-  Tombstones below indicate removed code that now lives in modules.
-*/
-
-// removed function loadAssets() {}
-// removed lots of game logic, update(), draw(), startGame(), endGame(), etc.
-// removed input handling and joystick setup
-// removed UI helpers like updateLivesUI() and updateShieldUI()
-
+// game.js - Entry point
 import('./assets.js').then(modAssets => {
     return import('./engine.js').then(modEngine => {
-        // initialize engine with DOM references and the assets module
         modEngine.init({
-            assets: modAssets,
             canvasId: 'gameCanvas',
             startScreenId: 'start-screen',
             gameOverId: 'game-over-screen',
@@ -29,15 +15,12 @@ import('./assets.js').then(modAssets => {
             shieldBtnId: 'shield-btn',
             shieldFillId: 'shield-fill',
             joystickZoneId: 'joystick-zone',
-            // new UI elements
             timerId: 'timer',
             streakId: 'streak',
-            sendLetterBtnId: 'send-letter-btn',
-            // gender UI IDs (start screen controls / HUD displays)
-            playerGender1MId: 'p1-gender-m',
-            playerGender1FId: 'p1-gender-f',
-            playerGender2MId: 'p2-gender-m',
-            playerGender2FId: 'p2-gender-f'
+            sendLetterBtnId: 'send-letter-btn'
         });
     });
+}).catch(err => {
+    console.error("Error al cargar el juego:", err);
+    alert("Error al cargar el juego. Revisa la consola (F12)");
 });
